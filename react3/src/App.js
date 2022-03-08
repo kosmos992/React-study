@@ -1,5 +1,5 @@
 import React from 'react';
-import { useState } from 'react';
+import { useState, Fragment } from 'react';
 import AddUser from './components/Users/AddUsers';
 import UsersList from './components/Users/UsersList';
 
@@ -12,11 +12,13 @@ function App() {
     ]);
 
   return (
-    <div>
+    <Fragment>
       <AddUser onAddUser={addUserHandler} />
       <UsersList users={usersList} />
-    </div>
+    </Fragment>
   );
 }
 
 export default App;
+// https://reactjs.org/docs/fragments.html#short-syntax
+// Fragment 대신 <> ~ </> 사용 가능
