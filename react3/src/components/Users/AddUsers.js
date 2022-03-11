@@ -7,20 +7,22 @@ import Wrapper from '../Helpers/Wrapper';
 import styles from './AddUsers.module.css';
 
 const AddUser = props => {
-  const nameInputRef = useRef();
-  const ageInputRef = useRef();
+  const nameInputRef = useRef(); // returns DOM object with prop.
+  const ageInputRef = useRef(); // useRef is recommended when only reading value
 
-  const [enteredUsername, setEnteredUsername] = useState('');
-  const [enteredAge, setEnteredAge] = useState('');
+  // const [enteredUsername, setEnteredUsername] = useState('');
+  // const [enteredAge, setEnteredAge] = useState('');
   const [error, setError] = useState();
 
-  const usernameChangeHandler = e => setEnteredUsername(e.target.value);
-  const ageChangeHandler = e => setEnteredAge(e.target.value);
+  // const usernameChangeHandler = e => setEnteredUsername(e.target.value);
+  // const ageChangeHandler = e => setEnteredAge(e.target.value);
   const errorHanlder = () => setError(null);
 
   const addUserHandler = e => {
     e.preventDefault();
-    if (enteredUsername.trim().length === 0 || enteredAge.trim().length === 0) {
+    const enteredName = nameInputRef.current.value;
+    const enteredUserAge = ageInputRef.current.value;
+    if (enteredName.trim().length === 0 || enteredUserAge.trim().length === 0) {
       setError({
         title: 'Invalid input',
         message: 'Please enter a valid name and age',
@@ -28,7 +30,7 @@ const AddUser = props => {
       return;
     }
 
-    if (+enteredAge < 1) {
+    if (+enteredUserAge < 1) {
       // 스트링을 넘버로 간단히 바꿔줌
       setError({
         title: 'Invalid input',
@@ -38,9 +40,12 @@ const AddUser = props => {
     }
 
     const rnum = Math.random();
-    props.onAddUser(enteredUsername, enteredAge, rnum);
-    setEnteredUsername('');
-    setEnteredAge('');
+    props.onAddUser(enteredName, enteredUserAge, rnum);
+    // setEnteredUsername('');
+    // setEnteredAge('');
+    nameInputRef.current.value = '';
+    ageInputRef.current.value = '';
+    // Rarely do this when only resetting entered value
   };
 
   return (
@@ -56,18 +61,18 @@ const AddUser = props => {
         <form onSubmit={addUserHandler}>
           <label htmlFor="username">Username</label>
           <input
-            value={enteredUsername}
+            // value={enteredUsername}
             id="username"
             type="text"
-            onChange={usernameChangeHandler}
+            // onChange={usernameChangeHandler}
             ref={nameInputRef}
           ></input>
           <label htmlFor="age">Age (Years)</label>
           <input
-            value={enteredAge}
+            // value={enteredAge}
             id="age"
             type="number"
-            onChange={ageChangeHandler}
+            // onChange={ageChangeHandler}
             ref={ageInputRef}
           ></input>
           <Button type="submit">Add User</Button>
